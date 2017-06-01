@@ -1,15 +1,20 @@
-from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request
+from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request, static_file
 #from __future__ import print_function
 #import socket
 #from contextlib import closing
 import time
 
 mainURL = 'http://0.0.0.0:8080/'
+#inofes01.tnet.jp
 
 #targetIP = '127.0.0.1'
 #port = 4000
 
 TEMPLATE_PATH.append("./page")
+
+@route('/data/<filename>')
+def data_dir(filename):
+    return static_file(filename, root="./data")
 
 @get('/page/')
 def page():
@@ -23,17 +28,17 @@ def red():
 def do():
     #累計情報の更新
     try:
-        f = open('num', 'r')
+        f = open('./data/num', 'r')
         n = int(f.read().strip())+1
         f.close()
-        f = open('num','w')
+        f = open('./data/num','w')
         f.write(str(n))
         f.close()
     except:
         return '累計数値操作エラーが発生しました。操作をやり直してください。'
     #タイム情報の更新
     try:
-        f = open('timedata','a')#追記モードで開く
+        f = open('./data/timedata','a')#追記モードで開く
         n = str(time.time())+'\n'
         f.write(n)
         f.close()
@@ -42,7 +47,7 @@ def do():
 
     #log
     try:
-        f = open('log','a')
+        f = open('./data/log','a')
         f.write(str(int(time.time()))+'[post]Button was pushed\n')
         f.close()
     except:
@@ -72,19 +77,19 @@ def do_config():
 
     #0は設定を現状維持
     if(line != 0):
-        f = open('line','w')
+        f = open('./data/line','w')
         f.write(str(line))
         retext += '<br/>閾値：' + str(line)
     else:
         retext += '<br/>閾値：変化なし'
     if(num != 0):
-        f = open('num','w')
+        f = open('./data/num','w')
         f.write(str(num))
         retext += '<br/>累計数：' + str(num)
     else:
         retext += '<br/>累計数：変化なし'
     if(speed != 0):
-        f = open('speed','w')
+        f = open('./data/speed','w')
         f.write(str(speed))
         retext += '<br/>秒速：' + str(speed)
     else:

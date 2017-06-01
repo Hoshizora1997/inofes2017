@@ -6,7 +6,7 @@ start = 0
 
 while(True):
     #データ読み込み
-    f = open('timedata','r')
+    f = open('./data/timedata','r')
     data = f.readlines()
     f.close()
 
@@ -24,12 +24,12 @@ while(True):
     while(start < length and dataCon[start]<line):start += 1
 
     #個数情報を書き込む
-    f = open('speed','w')
+    f = open('./data/speed','w')
     f.write(str(length - start))
     f.close()
 
     #logを出力
-    f = open('log','a')
+    f = open('./data/log','a')
     f.write(str(int(time.time()))+'[Write]speed:'+str(length - start)+'\n')
     f.close()
 
