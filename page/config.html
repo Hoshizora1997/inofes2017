@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebConfig</title>
+</head>
+<body>
+<h1>イノフェス舞台演出値強制変更ページ</h1>
+<p>
+    舞台演出の値を強制的に上書きします。タイミングによっては衝突が発生する可能性があるので注意してください。<br/>
+    "0"を設定した項目は変更されません。
+</p>
+<form action="../config/" method="post" enctype="multipart/form-data">
+    閾値：<input type="text" value="0" name="line"><br/>
+    累計値：<input type="text" value="0" name="num"><br/>
+    秒速：<input type="text" value="0" name="speed"><br/>
+    <input type="submit" value="変更実行">
+</form>
+</body>
+</html>
