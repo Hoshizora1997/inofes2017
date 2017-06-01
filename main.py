@@ -1,9 +1,11 @@
 from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request
 #from __future__ import print_function
-import socket
-from contextlib import closing
+#import socket
+#from contextlib import closing
+import time
 
 mainURL = 'http://0.0.0.0:8080/'
+
 #targetIP = '127.0.0.1'
 #port = 4000
 
@@ -19,29 +21,38 @@ def red():
 
 @route('/', method='POST')
 def do():
+    #累計情報の更新
     try:
         f = open('num', 'r')
         n = int(f.read().strip())+1
         f.close()
-        f = open('./num','w')
+        f = open('num','w')
         f.write(str(n))
         f.close()
     except:
-        return '数値操作エラーが発生しました。操作をやり直してください'
-#    try:
-#        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-#        with closing(sock):
-#            message = n.encode('utf-8')
-#            sock.sendto(message, (targetIP, port))
-#        print('送信成功\n'+message)
-#
-#    except:
-#        return '通信エラーが発生しました。操作をやり直してください'
+        return '累計数値操作エラーが発生しました。操作をやり直してください。'
+    #タイム情報の更新
+    try:
+        f = open('timedata','a')#追記モードで開く
+        n = str(time.time())+'\n'
+        f.write(n)
+        f.close()
+    except:
+        return 'タイム記録エラーが発生しました。操作をやり直してください。'
+
+    #log
+    try:
+        f = open('log','a')
+        f.write(str(int(time.time()))+'[post]Button was pushed\n')
+        f.close()
+    except:
+        return 'ログ記録エラー'
+
     redirect(mainURL+'page/', 301)
 
-#--------------------------
+# --------------------------
 # Configページ
-#--------------------------
+# --------------------------
 
 @get('/config/')
 def config():
