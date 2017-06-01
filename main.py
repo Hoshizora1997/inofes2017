@@ -1,4 +1,4 @@
-from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request, static_file
+from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request, static_file, hook, response
 #from __future__ import print_function
 #import socket
 #from contextlib import closing
@@ -13,8 +13,10 @@ mainURL = 'http://0.0.0.0:8080/'
 TEMPLATE_PATH.append("./page")
 
 @route('/data/<filename>')
-def data_dir(filename):
-    return static_file(filename, root="./data")
+def static_file_crossdomain(filename):
+    response = static_file(filename, root="./data")
+    response.set_header('Access-Control-allow-Origin', '*')
+    return response
 
 @get('/page/')
 def page():
