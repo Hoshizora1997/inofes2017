@@ -104,7 +104,7 @@ def do_config():
     except:
         try:
             f = open('./data/log','a')
-            f.write(str(int(time.time()))+'[Error][Config]line:'+line+' Write ERROR\n')
+            f.write(str(int(time.time()))+'[Error][Config]line:'+str(line)+' Write ERROR\n')
             f.close()
             return('Lineの書き込みでエラーが発生しました。')
         except:
@@ -121,7 +121,7 @@ def do_config():
     except:
         try:
             f = open('./data/log','a')
-            f.write(str(int(time.time()))+'[Error][Config]Num:'+num+' Write ERROR\n')
+            f.write(str(int(time.time()))+'[Error][Config]Num:'+str(num)+' Write ERROR\n')
             f.close()
             return('Numの書き込みでエラーが発生しました。')
         except:
@@ -138,7 +138,7 @@ def do_config():
     except:
         try:
             f = open('./data/log','a')
-            f.write(str(int(time.time()))+'[Error][Config]Speed:'+speed+' Write ERROR\n')
+            f.write(str(int(time.time()))+'[Error][Config]Speed:'+str(speed)+' Write ERROR\n')
             f.close()
             return('Speedの書き込みでエラーが発生しました。')
         except:
@@ -146,13 +146,13 @@ def do_config():
 
     try:
         f = open('./data/log','a')
-        f.write(str(int(time.time()))+'[Config]line:'+line+' num:'+num+' speed:'+speed+'\n')
+        f.write(str(int(time.time()))+'[Config]line:'+str(line)+' num:'+str(num)+' speed:'+str(speed)+'\n')
         f.close()
         return (retext)
     except:
         try:
             f = open('./data/log','a')
-            f.write(str(int(time.time()))+'[Error][Config]line:'+line+' num:'+num+' speed:'+speed+'\n')
+            f.write(str(int(time.time()))+'[Error][Config]line:'+str(line)+' num:'+str(num)+' speed:'+str(speed)+'\n')
             f.close()
             return ('最終ロフ記録に失敗しました。')
         except:
