@@ -1,14 +1,7 @@
 from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request, static_file, hook, response
-#from __future__ import print_function
-#import socket
-#from contextlib import closing
 import time
 
-mainURL = 'http://0.0.0.0:8080/'
-#inofes01.tnet.jp
-
-#targetIP = '127.0.0.1'
-#port = 4000
+mainURL = 'http://www.j-wave.co.jp/iwf2017/specialtalklive/'
 
 TEMPLATE_PATH.append("./page")
 
@@ -18,13 +11,13 @@ def static_file_crossdomain(filename):
     response.set_header('Access-Control-allow-Origin', '*')
     return response
 
-@get('/page/')
-def page():
-    return template('index',)
+#@get('/page/')
+#def page():
+#    return template('index',)
 
 @get('/')
 def red():
-    redirect(mainURL+'page/', 301)
+    redirect(mainURL, 301)
 
 @route('/', method='POST')
 def do():
@@ -37,6 +30,12 @@ def do():
         f.write(str(n))
         f.close()
     except:
+        try:
+            f = open('./data/log', 'a')
+            f.write(str(int(time.time())) + '[Error][post]Button was pushed NUM ERROR\n')
+            f.close()
+        except:
+            return '累計数値操作エラーのログ記録エラーが発生しました。操作をやり直してください。'
         return '累計数値操作エラーが発生しました。操作をやり直してください。'
     #タイム情報の更新
     try:
@@ -45,6 +44,12 @@ def do():
         f.write(n)
         f.close()
     except:
+        try:
+            f = open('./data/log', 'a')
+            f.write(str(int(time.time())) + '[Error][post]Button was pushed TIMEDATA ERROR\n')
+            f.close()
+        except:
+            return 'タイム記録エラーのログ記録エラーが発生しました。操作をやり直してください。'
         return 'タイム記録エラーが発生しました。操作をやり直してください。'
 
     #log
@@ -53,9 +58,9 @@ def do():
         f.write(str(int(time.time()))+'[post]Button was pushed\n')
         f.close()
     except:
-        return 'ログ記録エラー'
+        return '成功ログ記録に失敗しました。操作をやり直してください。'
 
-    redirect(mainURL+'page/', 301)
+    redirect(mainURL, 301)
 
 # --------------------------
 # Configページ
@@ -67,37 +72,51 @@ def config():
 
 @route('/config/',method='POST')
 def do_config():
-    line = request.forms.get('line')
-    num = request.forms.get('num')
-    speed = request.forms.get('speed')
+    try:
+        line = request.forms.get('line')
+        num = request.forms.get('num')
+        speed = request.forms.get('speed')
 
-    line = int(line)
-    num = int(num)
-    speed = int(speed)
+        line = int(line)
+        num = int(num)
+        speed = int(speed)
 
-    retext = '設定の変更を完了しました。<br/>'#完了文の生成
+        retext = '設定の変更が完了しました。<br/>'#完了文の生成
 
-    #0は設定を現状維持
-    if(line != 0):
-        f = open('./data/line','w')
-        f.write(str(line))
-        retext += '<br/>閾値：' + str(line)
-    else:
-        retext += '<br/>閾値：変化なし'
-    if(num != 0):
-        f = open('./data/num','w')
-        f.write(str(num))
-        retext += '<br/>累計数：' + str(num)
-    else:
-        retext += '<br/>累計数：変化なし'
-    if(speed != 0):
-        f = open('./data/speed','w')
-        f.write(str(speed))
-        retext += '<br/>秒速：' + str(speed)
-    else:
-        retext += '<br/>秒速：変化なし'
-
-    return (retext)
+        #0は設定を現状維持
+        if(line != 0):
+            f = open('./data/line','w')
+            f.write(str(line))
+            f.close()
+            retext += '<br/>閾値：' + str(line)
+        else:
+            retext += '<br/>閾値：変化なし'
+        if(num != 0):
+            f = open('./data/num','w')
+            f.write(str(num))
+            f.close()
+            retext += '<br/>累計数：' + str(num)
+        else:
+            retext += '<br/>累計数：変化なし'
+        if(speed != 0):
+            f = open('./data/speed','w')
+            f.write(str(speed))
+            f.close()
+            retext += '<br/>秒速：' + str(speed)
+        else:
+            retext += '<br/>秒速：変化なし'
+        f = open('./data/log','a')
+        f.write(str(int(time.time()))+'[Config]line:'+line+' num:'+num+' speed:'+speed+'\n')
+        f.close()
+        return (retext)
+    except:
+        try:
+            f = open('./data/log','a')
+            f.write(str(int(time.time()))+'[Error][Config]line:'+line+' num:'+num+' speed:'+speed+'\n')
+            f.close()
+        except:
+            return('エラーが発生しました。ログ記録も失敗しました。')
+        return ('エラーが発生しました。やり直してください。')
 
 
 
