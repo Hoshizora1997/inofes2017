@@ -26,7 +26,7 @@ def red():
 @route('/', method='POST')
 def do():
     #累計情報の更新
-    try:
+    #try:
         #f = open('./data/num', 'r+')
         #n = int(f.read().strip())+1
         #f.seek(0)
@@ -36,23 +36,23 @@ def do():
         #f.truncate()
         #f.close()
 
-        with open('./data/num') as f: # ロックを獲得できるまで待機
-            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
-            try:
-                n = int(f.read().strip()) + 1
-                f.seek(0)
-                f.write(str(n))
-                f.truncate()
-            finally:
-                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
-    except:
+    with open('./data/num') as f: # ロックを獲得できるまで待機
+        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
         try:
-            f = open('./data/log', 'a')
-            f.write(str(int(time.time())) + '[Error][post]Button was pushed NUM ERROR\n')
-            f.close()
-        except:
-            return '累計数値操作エラーのログ記録エラーが発生しました。操作をやり直してください。'
-        return '累計数値操作エラーが発生しました。操作をやり直してください。'
+            n = int(f.read().strip()) + 1
+            f.seek(0)
+            f.write(str(n))
+            f.truncate()
+        finally:
+            fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+    #except:
+    #    try:
+    #        f = open('./data/log', 'a')
+    #        f.write(str(int(time.time())) + '[Error][post]Button was pushed NUM ERROR\n')
+    #        f.close()
+    #    except:
+    #        return '累計数値操作エラーのログ記録エラーが発生しました。操作をやり直してください。'
+    #    return '累計数値操作エラーが発生しました。操作をやり直してください。'
     #タイム情報の更新
     try:
         f = open('./data/timedata','a')#追記モードで開く
