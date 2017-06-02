@@ -81,7 +81,16 @@ def do_config():
         line = int(line)
         num = int(num)
         speed = int(speed)
+    except:
+        try:
+            f = open('./data/log','a')
+            f.write(str(int(time.time()))+'[Error][Config]get data ERROR\n')
+            f.close()
+            return('初期引数読み込みでエラーが発生しました。')
+        except:
+            return('初期引数読み込みでエラーが発生しました。ログ記録も失敗しました。')
 
+    try:
         retext = '設定の変更が完了しました。<br/>'#完了文の生成
 
         #0は設定を現状維持
@@ -92,6 +101,16 @@ def do_config():
             retext += '<br/>閾値：' + str(line)
         else:
             retext += '<br/>閾値：変化なし'
+    except:
+        try:
+            f = open('./data/log','a')
+            f.write(str(int(time.time()))+'[Error][Config]line:'+line+' Write ERROR\n')
+            f.close()
+            return('Lineの書き込みでエラーが発生しました。')
+        except:
+            return('Lineの書き込みでエラーが発生しました。ログ記録も失敗しました。')
+
+    try:
         if(num != 0):
             f = open('./data/num','w')
             f.write(str(num))
@@ -99,6 +118,16 @@ def do_config():
             retext += '<br/>累計数：' + str(num)
         else:
             retext += '<br/>累計数：変化なし'
+    except:
+        try:
+            f = open('./data/log','a')
+            f.write(str(int(time.time()))+'[Error][Config]Num:'+num+' Write ERROR\n')
+            f.close()
+            return('Numの書き込みでエラーが発生しました。')
+        except:
+            return('Numの書き込みでエラーが発生しました。ログ記録も失敗しました。')
+
+    try:
         if(speed != 0):
             f = open('./data/speed','w')
             f.write(str(speed))
@@ -106,6 +135,16 @@ def do_config():
             retext += '<br/>秒速：' + str(speed)
         else:
             retext += '<br/>秒速：変化なし'
+    except:
+        try:
+            f = open('./data/log','a')
+            f.write(str(int(time.time()))+'[Error][Config]Speed:'+speed+' Write ERROR\n')
+            f.close()
+            return('Speedの書き込みでエラーが発生しました。')
+        except:
+            return('Speedの書き込みでエラーが発生しました。ログ記録も失敗しました。')
+
+    try:
         f = open('./data/log','a')
         f.write(str(int(time.time()))+'[Config]line:'+line+' num:'+num+' speed:'+speed+'\n')
         f.close()
@@ -115,10 +154,8 @@ def do_config():
             f = open('./data/log','a')
             f.write(str(int(time.time()))+'[Error][Config]line:'+line+' num:'+num+' speed:'+speed+'\n')
             f.close()
+            return ('最終ロフ記録に失敗しました。')
         except:
-            return('エラーが発生しました。ログ記録も失敗しました。')
-        return ('エラーが発生しました。やり直してください。')
-
-
+            return('最終ログ記録に失敗しました。ログも記録できませんでした。')
 
 run(host='202.222.13.37', port=80, debug=True)
