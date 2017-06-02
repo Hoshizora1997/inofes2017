@@ -36,7 +36,7 @@ def do():
         #f.truncate()
         #f.close()
 
-    with open('./data/num') as f: # ロックを獲得できるまで待機
+    with open('./data/num','r+') as f: # ロックを獲得できるまで待機
         fcntl.flock(f.fileno(), fcntl.LOCK_EX)
         try:
             n = int(f.read().strip()) + 1
