@@ -24,10 +24,10 @@ def red():
 def do():
     #累計情報の更新
     try:
-        f = open('./data/num', 'r')
+        f = open('./data/num', 'rw')
         n = int(f.read().strip())+1
-        f.close()
-        f = open('./data/num','w')
+        #f.close()
+        #f = open('./data/num','w')
         f.write(str(n))
         f.close()
     except:
