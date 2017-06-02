@@ -1,6 +1,7 @@
 #coding: UTF-8
 from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request, static_file, hook, response
 import time
+import sys
 
 mainURL = 'http://www.j-wave.co.jp/iwf2017/specialtalklive/'
 
@@ -26,9 +27,11 @@ def do():
     try:
         f = open('./data/num', 'r+')
         n = int(f.read().strip())+1
+        f.seek(0)
         #f.close()
         #f = open('./data/num','w')
         f.write(str(n))
+        f.truncate()
         f.close()
     except:
         try:
