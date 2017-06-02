@@ -1,3 +1,4 @@
+#coding: UTF-8
 from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request, static_file, hook, response
 import time
 
@@ -120,4 +121,4 @@ def do_config():
 
 
 
-run(host='0.0.0.0', port=8080, debug=True)
+run(host='202.222.13.37', port=80, debug=True)

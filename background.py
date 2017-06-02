@@ -1,3 +1,4 @@
+#coding: UTF-8
 #speed計算バックグラウンドプログラム
 
 import time
@@ -41,4 +42,4 @@ while(True):
             f.write(str(int(time.time())) + '[Error][back]Background ERROR\n')
             f.close()
         except:
-            pass
+            print('[Error][back]Background ERROR\n')
