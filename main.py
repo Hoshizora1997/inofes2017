@@ -24,7 +24,7 @@ def red():
 def do():
     #累計情報の更新
     try:
-        f = open('./data/num', 'rw')
+        f = open('./data/num', 'r+')
         n = int(f.read().strip())+1
         #f.close()
         #f = open('./data/num','w')
