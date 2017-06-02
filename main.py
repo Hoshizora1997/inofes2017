@@ -2,6 +2,8 @@
 from bottle import route, get, redirect, template, TEMPLATE_PATH, run, request, static_file, hook, response
 import time
 import sys
+import fcntl
+import io
 
 mainURL = 'http://www.j-wave.co.jp/iwf2017/specialtalklive/'
 
@@ -25,14 +27,24 @@ def red():
 def do():
     #累計情報の更新
     try:
-        f = open('./data/num', 'r+')
-        n = int(f.read().strip())+1
-        f.seek(0)
+        #f = open('./data/num', 'r+')
+        #n = int(f.read().strip())+1
+        #f.seek(0)
         #f.close()
         #f = open('./data/num','w')
-        f.write(str(n))
-        f.truncate()
-        f.close()
+        #f.write(str(n))
+        #f.truncate()
+        #f.close()
+
+        with open('./data/num') as f: # ロックを獲得できるまで待機
+            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+            try:
+                n = int(f.read().strip()) + 1
+                f.seek(0)
+                f.write(str(n))
+                f.truncate()
+            finally:
+                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
     except:
         try:
             f = open('./data/log', 'a')
