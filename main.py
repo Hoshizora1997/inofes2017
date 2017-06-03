@@ -1,14 +1,10 @@
 # coding: UTF-8
 import fcntl
-import io
-import sys
 import time
 
 from bottle import get
-from bottle import hook
 from bottle import redirect
 from bottle import request
-from bottle import response
 from bottle import route
 from bottle import run
 from bottle import static_file
