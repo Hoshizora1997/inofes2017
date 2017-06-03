@@ -1,18 +1,19 @@
 # coding: UTF-8
-from bottle import route
-from bottle import get
-from bottle import redirect
-from bottle import template
-from bottle import TEMPLATE_PATH
-from bottle import run
-from bottle import request
-from bottle import static_file
-from bottle import hook
-from bottle import response
-import time
-import sys
 import fcntl
 import io
+import sys
+import time
+
+from bottle import get
+from bottle import hook
+from bottle import redirect
+from bottle import request
+from bottle import response
+from bottle import route
+from bottle import run
+from bottle import static_file
+from bottle import template
+from bottle import TEMPLATE_PATH
 
 mainURL = 'http://www.j-wave.co.jp/iwf2017/specialtalklive/'
 
